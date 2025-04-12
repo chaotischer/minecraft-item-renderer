@@ -103,4 +103,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💖 Credits
 
-Made with ❤️ by Chaotischer
+- Made with ❤️ by Chaotischer
+
+- The default animated textures shown when loading the page are from the ["Animated Items" resource pack](https://modrinth.com/resourcepack/animated-items) by vrabb-gh.
+  - The following items from the resource pack may be included as default textures:
+      - Breeze Rod
+      - Golden Apple
+      - Ominous Bottle
+      - Salmon Bucket
+  - Please respect the original resource pack's CC-BY-NC-4.0 license when using these textures. 
