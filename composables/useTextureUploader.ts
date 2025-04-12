@@ -15,6 +15,27 @@ export function useTextureUploader() {
     cycleAnimationMode 
   } = useSpriteAnimation()
 
+  const loadRandomDefaultTexture = async () => {
+    try {
+      const response = await fetch('/api/default-items')
+      const items = await response.json()
+      if (items.length > 0) {
+        const randomItem = items[Math.floor(Math.random() * items.length)]
+        const textureResponse = await fetch(`/default-items/${randomItem}`)
+        const blob = await textureResponse.blob()
+        const reader = new FileReader()
+        reader.onload = async (e) => {
+          const result = e.target?.result as string
+          imageUrl.value = result
+          await detectFrames(result)
+        }
+        reader.readAsDataURL(blob)
+      }
+    } catch (err) {
+      console.error('Failed to load default texture:', err)
+    }
+  }
+
   const triggerFileInput = () => fileInput.value?.click()
 
   const handleFileUpload = async (event: Event) => {
@@ -57,6 +78,7 @@ export function useTextureUploader() {
     triggerFileInput,
     handleFileUpload,
     adjustTickRate,
-    cycleAnimationMode
+    cycleAnimationMode,
+    loadRandomDefaultTexture
   }
 } 

@@ -104,10 +104,14 @@ const {
   triggerFileInput, 
   handleFileUpload, 
   adjustTickRate,
-  cycleAnimationMode 
+  cycleAnimationMode,
+  loadRandomDefaultTexture
 } = useTextureUploader()
 
-onMounted(() => window.addEventListener('keydown', handleKeyPress))
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyPress)
+  loadRandomDefaultTexture()
+})
 onBeforeUnmount(() => window.removeEventListener('keydown', handleKeyPress))
 
 const handleKeyPress = (event: KeyboardEvent) => {
