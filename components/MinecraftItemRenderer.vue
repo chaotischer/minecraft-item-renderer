@@ -1,4 +1,3 @@
-<!-- Component for rendering and manipulating Minecraft-style 3D items -->
 <template>
   <!-- File upload section -->
   <div class="text-white">
