@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 
 // Defines the possible animation modes: loop, reverse, or back-and-forth
-export type AnimationMode = 'loop' | 'reverse' | 'back and fourth'
+export type AnimationMode = 'loop' | 'reverse' | 'back and forth'
 
 // Composable for handling sprite sheet animations with different modes and timing
 export function useSpriteAnimation() {
@@ -70,7 +70,7 @@ export function useSpriteAnimation() {
           ? lastIndex 
           : currentFrameIndex.value - 1
         break
-      case 'back and fourth':
+      case 'back and forth':
         if (isReversed.value) {
           currentFrameIndex.value--
           if (currentFrameIndex.value <= 0) {
@@ -119,7 +119,7 @@ export function useSpriteAnimation() {
 
   // Cycles through available animation modes
   const cycleAnimationMode = () => {
-    const modes: AnimationMode[] = ['loop', 'reverse', 'back and fourth']
+    const modes: AnimationMode[] = ['loop', 'reverse', 'back and forth']
     const currentIndex = modes.indexOf(animationMode.value)
     animationMode.value = modes[(currentIndex + 1) % modes.length]
     if (isAnimating.value) {
