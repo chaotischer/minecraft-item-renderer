@@ -17,7 +17,7 @@ You can see a live demo of the project [here](https://render.chaotischer.de/).
 
 ## 🖼️ Preview
 
-![Minecraft Item Renderer](.docs/preview.png)
+![Minecraft Item Renderer](.docs/preview.gif)
 
 ## 🛠️ Installation
 
