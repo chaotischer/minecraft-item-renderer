@@ -1,8 +1,11 @@
 import { ref, computed } from 'vue'
 
+// Defines the possible animation modes: loop, reverse, or back-and-forth
 export type AnimationMode = 'loop' | 'reverse' | 'back and fourth'
 
+// Composable for handling sprite sheet animations with different modes and timing
 export function useSpriteAnimation() {
+  // State management for animation frames and timing
   const spriteFrames = ref<string[]>([])
   const currentFrameIndex = ref(0)
   const isAnimating = ref(false)
@@ -12,6 +15,7 @@ export function useSpriteAnimation() {
   const animationMode = ref<AnimationMode>('loop')
   const isReversed = ref(false)
 
+  // Analyzes a sprite sheet image and extracts individual frames
   const detectFrames = async (imageUrl: string): Promise<void> => {
     return new Promise((resolve) => {
       stopAnimation()
@@ -53,6 +57,7 @@ export function useSpriteAnimation() {
     })
   }
 
+  // Updates the current frame based on the selected animation mode
   const updateFrame = () => {
     const lastIndex = spriteFrames.value.length - 1
     
@@ -83,6 +88,7 @@ export function useSpriteAnimation() {
     }
   }
 
+  // Starts the animation with the current settings
   const startAnimation = () => {
     stopAnimation()
     if (spriteFrames.value.length <= 1) return
@@ -92,6 +98,7 @@ export function useSpriteAnimation() {
     animationInterval.value = window.setInterval(updateFrame, msPerTick * tickRate.value) // tickRate ticks per frame
   }
 
+  // Stops the animation and resets to initial state
   const stopAnimation = () => {
     if (animationInterval.value) {
       clearInterval(animationInterval.value)
@@ -102,6 +109,7 @@ export function useSpriteAnimation() {
     isReversed.value = false
   }
 
+  // Adjusts animation speed by modifying tick rate
   const adjustTickRate = (delta: number) => {
     tickRate.value = Math.max(1, Math.min(20, tickRate.value + delta))
     if (isAnimating.value) {
@@ -109,6 +117,7 @@ export function useSpriteAnimation() {
     }
   }
 
+  // Cycles through available animation modes
   const cycleAnimationMode = () => {
     const modes: AnimationMode[] = ['loop', 'reverse', 'back and fourth']
     const currentIndex = modes.indexOf(animationMode.value)
@@ -118,6 +127,7 @@ export function useSpriteAnimation() {
     }
   }
 
+  // Computed property for the current frame's image URL
   const currentFrame = computed(() => {
     return spriteFrames.value[currentFrameIndex.value] || spriteFrames.value[0]
   })

@@ -1,4 +1,6 @@
+<!-- Component for rendering and manipulating Minecraft-style 3D items -->
 <template>
+  <!-- File upload section -->
   <div class="text-white">
     <div class="upload-section">
       <input type="file" accept=".png" @change="handleFileUpload" class="hidden" ref="fileInput" />
@@ -8,6 +10,7 @@
       <p v-if="error" class="text-red-500 mt-2">{{ error }}</p>
     </div>
     
+    <!-- 3D renderer container with mouse interaction -->
     <div class="renderer-box mt-4 bg-gray-800 rounded-lg p-6 relative">
       <div class="renderer-container"
            @mousedown="startDrag"
@@ -15,6 +18,7 @@
            @mouseup="stopDrag"
            @mouseleave="stopDrag"
            @wheel.prevent="onZoom">
+        <!-- Item container with 3D transformation -->
         <div ref="itemContainer" 
              class="item-container"
              :style="{
@@ -22,6 +26,7 @@
                width: `${64 * zoom}px`,
                height: `${64 * zoom}px`
              }">
+          <!-- Multiple layers for 3D depth effect -->
           <template v-if="imageUrl">
             <img v-for="depth in 16"
                  :key="depth"
@@ -35,16 +40,19 @@
           </template>
         </div>
       </div>
+      <!-- Animation status display -->
       <div v-if="isAnimating" class="absolute bottom-2 right-2 text-sm bg-gray-900 bg-opacity-75 px-2 py-1 rounded flex gap-2">
         <span>{{ tickRate }} ticks ({{ (tickRate / 20).toFixed(2) }}s per frame)</span>
         <span class="border-l border-gray-600 pl-2">{{ animationMode }}</span>
       </div>
     </div>
 
+    <!-- User tip for sprite sheets -->
     <p class="text-sm mt-4 text-gray-400">
       Tip: You can upload a sprite sheet for animated textures. The sprite sheet should contain frames of equal size arranged vertically.
     </p>
 
+    <!-- Controls and keyboard shortcuts -->
     <div class="controls mt-4">
       <div class="bg-gray-800 rounded-lg p-4">
         <table class="w-full text-sm">
@@ -93,6 +101,7 @@ import { onMounted, onBeforeUnmount } from 'vue'
 import { useItemRenderer } from '~/composables/useItemRenderer'
 import { useTextureUploader } from '~/composables/useTextureUploader'
 
+// Initialize composables for item rendering and texture handling
 const { rotation, zoom, startDrag, onDrag, stopDrag, onZoom, resetView } = useItemRenderer()
 const { 
   fileInput, 
@@ -108,12 +117,14 @@ const {
   loadRandomDefaultTexture
 } = useTextureUploader()
 
+// Set up keyboard event listeners and load default texture
 onMounted(() => {
   window.addEventListener('keydown', handleKeyPress)
   loadRandomDefaultTexture()
 })
 onBeforeUnmount(() => window.removeEventListener('keydown', handleKeyPress))
 
+// Handle keyboard shortcuts for various controls
 const handleKeyPress = (event: KeyboardEvent) => {
   if (event.key.toLowerCase() === 'r') resetView()
   if (event.key === ',') adjustTickRate(-1)
@@ -123,8 +134,10 @@ const handleKeyPress = (event: KeyboardEvent) => {
 </script>
 
 <style scoped>
+/* Styling for the renderer box */
 .renderer-box { border: 1px solid rgba(255, 255, 255, 0.1); }
 
+/* Container for 3D rendering with perspective */
 .renderer-container {
   position: relative;
   width: 100%;
@@ -142,6 +155,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
 
 .renderer-container:active { cursor: grabbing; }
 
+/* Container for the 3D item */
 .item-container {
   position: absolute;
   left: 50%;
@@ -152,6 +166,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
   -webkit-user-select: none;
 }
 
+/* Individual layers of the 3D item */
 .item-layer {
   position: absolute;
   left: 50%;
@@ -166,6 +181,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
   image-rendering: pixelated !important;
 }
 
+/* Styling for keyboard shortcut display */
 .key {
   display: inline-block;
   padding: 2px 8px;

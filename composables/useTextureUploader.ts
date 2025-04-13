@@ -1,7 +1,9 @@
 import { ref } from 'vue'
 import { useSpriteAnimation } from './useSpriteAnimation'
 
+// Composable for handling texture uploads and default texture loading
 export function useTextureUploader() {
+  // References and state management
   const fileInput = ref<HTMLInputElement | null>(null)
   const error = ref('')
   const imageUrl = ref('')
@@ -15,6 +17,7 @@ export function useTextureUploader() {
     cycleAnimationMode 
   } = useSpriteAnimation()
 
+  // Loads a random default texture from the server
   const loadRandomDefaultTexture = async () => {
     try {
       const response = await fetch('/api/default-items')
@@ -36,8 +39,10 @@ export function useTextureUploader() {
     }
   }
 
+  // Triggers the hidden file input element
   const triggerFileInput = () => fileInput.value?.click()
 
+  // Handles file upload and validation
   const handleFileUpload = async (event: Event) => {
     const target = event.target as HTMLInputElement
     const file = target.files?.[0]
